@@ -1,5 +1,12 @@
-from comparators import SetWordComparator, BitwiseWordComparator
+from typing import Iterable
+
+from comparators import WordComparator, SetWordComparator, BitwiseWordComparator
 from benchmark import WordComparatorBenchmark, BenchmarkResult
+
+WORD_COMPARATORS: list[WordComparator] = [
+    SetWordComparator(),
+    BitwiseWordComparator(),
+]
 
 WORDS: list[str] = [
     "abc",
@@ -22,13 +29,12 @@ SEED: int = 42
 
 
 def main() -> None:
-    results: list[BenchmarkResult] = [
-        benchmark.run()
-        for benchmark in (
-            WordComparatorBenchmark(comparator, WORDS, N_PAIRS, SEED)
-            for comparator in (SetWordComparator(), BitwiseWordComparator())
-        )
-    ]
+    benchmarks: Iterable[WordComparatorBenchmark] = (
+        WordComparatorBenchmark(comparator, WORDS, N_PAIRS, SEED)
+        for comparator in WORD_COMPARATORS
+    )
+
+    results: list[BenchmarkResult] = [benchmark.run() for benchmark in benchmarks]
 
     results.sort(key=lambda result: result.duration)
 
