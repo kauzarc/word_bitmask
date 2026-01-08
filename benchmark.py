@@ -14,8 +14,8 @@ class BenchmarkResult:
     n_true: int
 
     def __str__(self) -> str:
-        true_pct = (self.n_true / self.n_pairs) * 100 if self.n_pairs else 0
-        ns_per_pair = self.duration / self.n_pairs
+        true_pct: float = (self.n_true / self.n_pairs) * 100 if self.n_pairs else 0
+        ns_per_pair: float = self.duration / self.n_pairs
 
         return (
             f"┏━ Benchmark ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
@@ -42,14 +42,14 @@ class WordComparatorBenchmark:
         self.rng = Random(seed)
 
     def run(self) -> BenchmarkResult:
-        t0 = perf_counter_ns()
+        t0: int = perf_counter_ns()
 
         n_true: int = sum(
             self.comparator.share_letter(word1, word2)
             for word1, word2 in self._pairs_generator()
         )
 
-        t1 = perf_counter_ns()
+        t1: int = perf_counter_ns()
 
         return BenchmarkResult(
             name=type(self.comparator).__name__,

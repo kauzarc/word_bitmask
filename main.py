@@ -1,7 +1,7 @@
 from comparators import SetWordComparator, BitwiseWordComparator
-from benchmark import WordComparatorBenchmark
+from benchmark import WordComparatorBenchmark, BenchmarkResult
 
-WORDS = [
+WORDS: list[str] = [
     "abc",
     "def",
     "ghij",
@@ -17,12 +17,12 @@ WORDS = [
     "qrst",
 ]
 
-N_PAIRS = 500_000
-SEED = 42
+N_PAIRS: int = 500_000
+SEED: int = 42
 
 
 def main() -> None:
-    results = [
+    results: list[BenchmarkResult] = [
         benchmark.run()
         for benchmark in (
             WordComparatorBenchmark(comparator, WORDS, N_PAIRS, SEED)
